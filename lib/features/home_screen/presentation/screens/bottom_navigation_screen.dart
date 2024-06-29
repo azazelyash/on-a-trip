@@ -6,6 +6,7 @@ import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/screens/destination_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/home_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
+import 'package:on_a_trip/features/notification_screen/notification_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/profile_screen.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class BottomNavigationScreen extends StatelessWidget {
     const HomeScreen(),
     const DestinationScreen(),
     const HomeScreen(),
-    const HomeScreen(),
+    const NotificationScreen(),
     const ProfileScreen(),
   ];
 
