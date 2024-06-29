@@ -58,28 +58,28 @@ class AddPackageWidget extends StatelessWidget {
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: "Duration",
-                    prefixIcon: Icon(Icons.place_outlined),
+                    prefixIcon: Icon(Icons.timelapse),
                   ),
                 ),
                 SizedBox(height: 12.h),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: "Travel Date",
-                    prefixIcon: Icon(Icons.place_outlined),
+                    prefixIcon: Icon(Icons.date_range),
                   ),
                 ),
                 SizedBox(height: 12.h),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: "Budget",
-                    prefixIcon: Icon(Icons.place_outlined),
+                    prefixIcon: Icon(Icons.attach_money_outlined),
                   ),
                 ),
                 SizedBox(height: 12.h),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: "Message",
-                    prefixIcon: Icon(Icons.place_outlined),
+                    prefixIcon: Icon(Icons.message_outlined),
                   ),
                 ),
                 SizedBox(height: 20.h),
