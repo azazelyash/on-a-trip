@@ -46,41 +46,30 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 96,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: const [
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 CategoryWidget(
                   imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Hiking",
-                  icon: Icons.hiking,
+                  title: "Show All",
+                  icon: Icons.menu,
                 ),
                 CategoryWidget(
                   imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Cycling",
-                  icon: Icons.pedal_bike,
+                  title: "Hotel",
+                  icon: Icons.hotel_outlined,
                 ),
                 CategoryWidget(
                   imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Climbing",
-                  icon: Icons.terrain,
+                  title: "Packages",
+                  icon: Icons.hotel_class_outlined,
                 ),
                 CategoryWidget(
                   imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Swimming",
-                  icon: Icons.pool,
-                ),
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Skiing",
-                  icon: Icons.snowboarding,
-                ),
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Sky Diving",
-                  icon: Icons.airplanemode_active,
+                  title: "Transport",
+                  icon: Icons.car_rental,
                 ),
               ],
             ),

@@ -30,11 +30,14 @@ class BackButtonAppBar extends StatelessWidget {
             ? Text(
                 title!,
                 style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                   color: iconColor ?? CustomColors.titleColor,
                 ),
               )
             : const SizedBox.shrink(),
         const Spacer(),
+        const SizedBox(width: 40),
       ],
     );
   }
