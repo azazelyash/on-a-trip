@@ -93,7 +93,11 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const BottomNavigationScreen(
+                                userType: "user",
+                              ),
+                            ),
                             (context) => false,
                           );
                         },

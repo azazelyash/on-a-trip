@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/widgets/back_button_appbar.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/transporter_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/travel_agent_from_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/widgets/signup_type_widget.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
 
@@ -46,12 +49,22 @@ class SelectBusinessUserTypeScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               SignUpTypeWidget(
                 title: "Hotelier",
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HotelierFormScreen()),
+                  );
+                },
                 image: Assets.images.hotelier.image(
                   width: 150,
                 ),
               ),
               SizedBox(height: 12.h),
               SignUpTypeWidget(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const TravelAgentFromScreen()),
+                  );
+                },
                 title: "Travel Agent",
                 image: Assets.images.travelAgent.image(
                   width: 150,
@@ -59,6 +72,11 @@ class SelectBusinessUserTypeScreen extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               SignUpTypeWidget(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const TransporterFormScreen()),
+                  );
+                },
                 title: "Transporter",
                 image: Assets.images.transporter.image(
                   width: 150,

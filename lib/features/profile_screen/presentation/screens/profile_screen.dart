@@ -121,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 56.h),
+          const SizedBox(height: kBottomNavigationBarHeight),
         ],
       ),
     );
