@@ -4,22 +4,70 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/screens/destination_screen.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/hotelier_destination_screen.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/transporter_destination_screen.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/travel_agent_destination_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/home_screen.dart';
+import 'package:on_a_trip/features/home_screen/presentation/screens/hotelier_home_screen.dart';
+import 'package:on_a_trip/features/home_screen/presentation/screens/transporter_home_screen.dart';
+import 'package:on_a_trip/features/home_screen/presentation/screens/travel_agent_home_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
+import 'package:on_a_trip/features/notification_screen/notification_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/profile_screen.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationScreen extends StatelessWidget {
-  const BottomNavigationScreen({super.key});
+  const BottomNavigationScreen({
+    super.key,
+    required this.userType,
+  });
 
-  static final List<Widget> _selectedScreen = [
+  final String userType;
+
+  static final List<Widget> _selectedUserScreen = [
     const HomeScreen(),
     const DestinationScreen(),
     const HomeScreen(),
-    const HomeScreen(),
+    const NotificationScreen(),
     const ProfileScreen(),
   ];
+
+  static final List<Widget> _selectedTravelAgentScreen = [
+    const TravelAgentHomeScreen(),
+    const TravelAgentDestinationScreen(),
+    const HomeScreen(),
+    const NotificationScreen(),
+    const ProfileScreen(),
+  ];
+
+  static final List<Widget> _selectedHotelierScreen = [
+    const HotelierHomeScreen(),
+    const HotelierDestinationScreen(),
+    const HomeScreen(),
+    const NotificationScreen(),
+    const ProfileScreen(),
+  ];
+
+  static final List<Widget> _selectedTransporterScreen = [
+    const TransporterHomeScreen(),
+    const TransporterDestinationScreen(),
+    const HomeScreen(),
+    const NotificationScreen(),
+    const ProfileScreen(),
+  ];
+
+  List<Widget> getSelectedScreen() {
+    if (userType == "user") {
+      return _selectedUserScreen;
+    } else if (userType == "travel_agent") {
+      return _selectedTravelAgentScreen;
+    } else if (userType == "hotelier") {
+      return _selectedHotelierScreen;
+    } else {
+      return _selectedTransporterScreen;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +115,7 @@ class BottomNavigationScreen extends StatelessWidget {
                 ],
               ),
             ),
-            body: _selectedScreen[bottomNavigationProvider.selectedIndex],
+            body: getSelectedScreen()[bottomNavigationProvider.selectedIndex],
           ),
         );
       },

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
+import 'package:on_a_trip/features/home_screen/presentation/widgets/my_prroposal_tile_widget.dart';
+import 'package:on_a_trip/features/home_screen/presentation/widgets/new_proposal_tile_widget.dart';
 
-import '../widgets/category_tile_widget.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/spaces.dart';
-import '../widgets/recommendation_tile_wdiget.dart';
 import '../widgets/popular_destination_tile_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HotelierHomeScreen extends StatelessWidget {
+  const HotelierHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "What are you looking for?",
+                "My Hotel Packages",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -40,56 +40,7 @@ class HomeScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  "Show more",
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 96,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Show All",
-                  icon: Icons.menu,
-                ),
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Hotel",
-                  icon: Icons.hotel_outlined,
-                ),
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Packages",
-                  icon: Icons.hotel_class_outlined,
-                ),
-                CategoryWidget(
-                  imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Transport",
-                  icon: Icons.car_rental,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Popular Destinations",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.titleColor,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Show more",
+                  "View All",
                   style: TextStyle(fontSize: 12),
                 ),
               ),
@@ -134,7 +85,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Recommendations",
+                "New Proposals",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -144,38 +95,52 @@ class HomeScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  "Show more",
+                  "View All",
                   style: TextStyle(fontSize: 12),
                 ),
               ),
             ],
           ),
-          ListView(
+          ListView.builder(
+            itemCount: 3,
             shrinkWrap: true,
+            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              RecommendationTileWidget(
-                title: "Dolomites",
-                imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
+            itemBuilder: (context, index) => NewProposalTileWidget(
+              isLast: index == 2,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "My Proposals",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: CustomColors.titleColor,
+                ),
               ),
-              RecommendationTileWidget(
-                title: "Dolomites",
-                imgUrl: "https://media.timeout.com/images/106032809/750/562/image.jpg",
-              ),
-              RecommendationTileWidget(
-                title: "Dolomites",
-                imgUrl: "https://ihplb.b-cdn.net/wp-content/uploads/2021/06/Maldives.jpeg",
-              ),
-              RecommendationTileWidget(
-                title: "Dolomites",
-                imgUrl: "https://theplanetd.com/images/vietnam-sapa-rice-terraces.jpg",
-              ),
-              RecommendationTileWidget(
-                title: "Dolomites",
-                imgUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Cappadocia-Turkey-popsugar.com_.jpg",
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "View All",
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
             ],
           ),
+          ListView.builder(
+            itemCount: 7,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => MyPrroposalTileWidget(
+              isLast: index == 6,
+            ),
+          ),
+          const SizedBox(height: kBottomNavigationBarHeight),
         ],
       ),
     );

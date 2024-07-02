@@ -8,10 +8,12 @@ class RecommendationTileWidget extends StatelessWidget {
     super.key,
     required this.imgUrl,
     required this.title,
+    this.isLast = false,
   });
 
   final String imgUrl;
   final String title;
+  final bool? isLast;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class RecommendationTileWidget extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
+        padding: EdgeInsets.only(bottom: (isLast ?? false) ? 0 : 12.0),
         child: Row(
           children: [
             CachedNetworkImage(

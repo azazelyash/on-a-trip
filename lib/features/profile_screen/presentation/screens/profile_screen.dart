@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
+import 'package:on_a_trip/features/profile_screen/presentation/screens/edit_profile_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/order_screen.dart';
+import 'package:on_a_trip/features/profile_screen/presentation/screens/wishlist_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/widgets/profile_element_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -71,7 +73,11 @@ class ProfileScreen extends StatelessWidget {
                 ProfileElementButton(
                   icon: Icons.person,
                   title: 'Edit Profile',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                    );
+                  },
                 ),
                 ProfileElementButton(
                   icon: Icons.history,
@@ -90,7 +96,11 @@ class ProfileScreen extends StatelessWidget {
                 ProfileElementButton(
                   icon: Icons.favorite,
                   title: 'My Wishlist',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const WishlistScreen()),
+                    );
+                  },
                 ),
                 ProfileElementButton(
                   onTap: () {},
@@ -111,6 +121,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: kBottomNavigationBarHeight),
         ],
       ),
     );

@@ -5,16 +5,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
     super.key,
+    this.margin,
+    this.bgColor,
     required this.child,
   });
 
+  final Color? bgColor;
   final Widget child;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       padding: EdgeInsets.all(16.h),
       decoration: BoxDecoration(
+        color: bgColor,
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
           bottomLeft: Radius.circular(20),
