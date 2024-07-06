@@ -24,6 +24,9 @@ dependencies:
   flutter_native_splash: ^2.4.0
   smooth_page_indicator: ^1.1.0
   otp_text_field_v2: ^1.0.3
+  mime: ^1.0.5
+  http_parser:
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

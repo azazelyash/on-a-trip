@@ -9,6 +9,39 @@ class HttpService {
   static const Duration _timeOutDuration = Duration(hours: 1);
   static const String errorMessageString = "message";
 
+  Future<dynamic> postFormData({
+    required String url,
+    required Map<String, dynamic> body,
+    List<http.MultipartFile>? images,
+    Map<String, String>? headers,
+  }) async {
+    log("/* ---------------------------------- POST ---------------------------------- */", name: "Method");
+    log(url, name: "Url");
+    log(body.toString(), name: "Body");
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    body.forEach((key, value) {
+      request.fields[key] = value;
+    });
+
+    if (images != null) {
+      log(images.length.toString(), name: "Image Length");
+      for (var image in images) {
+        request.files.add(image);
+      }
+    }
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    return _returnResponse(response);
+  }
+
   Future<dynamic> get({required String url, Map<String, String>? headers, bool isContentTypeJson = true}) async {
     log("/* ----------------------------------- GET ---------------------------------- */", name: "Method");
     log(url, name: "Url");

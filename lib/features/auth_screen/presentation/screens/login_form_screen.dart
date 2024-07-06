@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
+import 'package:on_a_trip/common/helper/utils.dart';
 import 'package:on_a_trip/common/widgets/back_button_appbar.dart';
+import 'package:on_a_trip/common/widgets/button_loading_indicator.dart';
 import 'package:on_a_trip/common/widgets/custom_container.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/login_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/send_code_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/signup_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/transporter_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/travel_agent_from_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/bottom_navigation_screen.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
+import 'package:provider/provider.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({
@@ -22,6 +30,23 @@ class LoginFormScreen extends StatefulWidget {
 }
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> loginUser() async {
+    try {
+      await context.read<AuthScreenProvider>().login(
+            params: LoginParams(
+              email: emailController.text,
+              password: passwordController.text,
+            ),
+          );
+      await context.read<AuthScreenProvider>().getUserDetails();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,51 +85,104 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
               ),
               SizedBox(height: 24.h),
               CustomContainer(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Email",
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Password",
-                        prefixIcon: Icon(Icons.lock_outline),
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SendCodeFormScreen(),
+                child: Consumer<AuthScreenProvider>(
+                  builder: (context, authScreenProvider, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TextFormField(
+                          enabled: !authScreenProvider.isLoading,
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            labelText: "Email",
+                            prefixIcon: Icon(Icons.email_outlined),
                           ),
-                        );
-                      },
-                      child: const Text("Forgot Password?"),
-                    ),
-                    SizedBox(height: 24.h),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const BottomNavigationScreen(
-                                userType: "user",
-                              ),
+                        ),
+                        SizedBox(height: 16.h),
+                        TextFormField(
+                          enabled: !authScreenProvider.isLoading,
+                          controller: passwordController,
+                          obscureText: authScreenProvider.isObscure,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                authScreenProvider.isObscure = !authScreenProvider.isObscure;
+                              },
+                              splashRadius: 20,
+                              padding: EdgeInsets.zero,
+                              visualDensity: VisualDensity.compact,
+                              icon: (authScreenProvider.isObscure) ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
                             ),
-                            (context) => false,
-                          );
-                        },
-                        child: const Text("Sign In"),
-                      ),
-                    ),
-                  ],
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        TextButton(
+                          onPressed: () async {
+                            try {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const SendCodeFormScreen(),
+                                ),
+                              );
+                            } catch (e) {
+                              Utils.showSnackBar(context, content: e.toString());
+                            }
+                          },
+                          child: const Text("Forgot Password?"),
+                        ),
+                        SizedBox(height: 24.h),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                if (authScreenProvider.isLoading) {
+                                  throw "Please wait for the current process to finish";
+                                }
+                                if (emailController.text.isEmpty) {
+                                  throw "Email is required";
+                                }
+                                if (passwordController.text.isEmpty) {
+                                  throw "Password is required";
+                                }
+                                await loginUser();
+                                if (authScreenProvider.userModel!.userType != "traveller" && (authScreenProvider.userModel!.otherDetails == null || authScreenProvider.userModel!.otherDetails == false)) {
+                                  if (authScreenProvider.userModel!.userType == "hotelier") {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) => const HotelierFormScreen()),
+                                    );
+                                  } else if (authScreenProvider.userModel!.userType == "travel_agent") {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) => const TravelAgentFromScreen()),
+                                    );
+                                  } else if (authScreenProvider.userModel!.userType == "transporter") {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) => const TransporterFormScreen()),
+                                    );
+                                  }
+                                  return;
+                                }
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => const BottomNavigationScreen(
+                                      userType: "user",
+                                    ),
+                                  ),
+                                  (context) => false,
+                                );
+                              } catch (e) {
+                                Utils.showSnackBar(context, content: e.toString());
+                              }
+                            },
+                            child: (authScreenProvider.isLoading) ? const ButtonLoadingIndicator() : const Text("Sign In"),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               SizedBox(height: 6.h),

@@ -12,8 +12,6 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   await ScreenUtil.ensureScreenSize();
 
-  FlutterNativeSplash.remove();
-
   runApp(
     MyApp(
       sharedPreferences: sharedPreferences,

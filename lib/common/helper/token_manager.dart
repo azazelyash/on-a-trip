@@ -34,10 +34,10 @@ class TokenManager {
     }
   }
 
-  Future<bool> saveUserRole({required int userRole}) async {
+  Future<bool> saveUserRole({required String userRole}) async {
     try {
       log(userRole.toString(), name: "Role Saved");
-      return await sharedPreferences.setInt(LocalStorageKeys.userRole.asString, userRole);
+      return await sharedPreferences.setString(LocalStorageKeys.userRole.asString, userRole);
     } catch (e) {
       log("", error: e.toString(), name: "Save Role Error");
       return false;

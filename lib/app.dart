@@ -3,8 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/themes/button_theme.dart';
 import 'package:on_a_trip/common/themes/input_decoration_theme.dart';
 import 'package:on_a_trip/common/themes/text_button_theme.dart';
+import 'package:on_a_trip/features/auth_screen/data/data_source/auth_screen_remote_data_source.dart';
+import 'package:on_a_trip/features/auth_screen/data/repository/auth_screen_repository_impl.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/check_auth_status_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/create_account_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/create_profile_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/get_user_details_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/login_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/logout_usecase.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/provider/create_profile_provider.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/transporter_form_screen.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/screens/travel_agent_from_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
+import 'package:on_a_trip/features/home_screen/presentation/screens/bottom_navigation_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
 import 'package:on_a_trip/features/onboarding_screens/presentation/screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +44,11 @@ class _MyAppState extends State<MyApp> {
     final HttpService httpService = HttpService();
     final TokenManager tokenManager = TokenManager(sharedPreferences: widget.sharedPreferences);
 
+    final AuthScreenRepositoryImpl authScreenRepository = AuthScreenRepositoryImpl(
+      tokenManager: tokenManager,
+      authScreenRemoteDataSource: AuthScreenRemoteDataSource(httpService: httpService),
+    );
+
     return ScreenUtilInit(
       minTextAdapt: true,
       designSize: const Size(390, 844),
@@ -38,7 +56,18 @@ class _MyAppState extends State<MyApp> {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider<AuthScreenProvider>(
-              create: (context) => AuthScreenProvider(),
+              create: (context) => AuthScreenProvider(
+                loginUsecase: LoginUsecase(authScreenRepository: authScreenRepository),
+                logoutUsecase: LogoutUsecase(authScreenRepository: authScreenRepository),
+                createAccountUsecase: CreateAccountUsecase(authScreenRepository: authScreenRepository),
+                getUserDetailsUsecase: GetUserDetailsUsecase(authScreenRepository: authScreenRepository),
+                checkAuthStatusUsecase: CheckAuthStatusUsecase(authScreenRepository: authScreenRepository),
+              )..checkAuthStatus(),
+            ),
+            ChangeNotifierProvider<CreateProfileProvider>(
+              create: (context) => CreateProfileProvider(
+                createProfileUsecase: CreateProfileUsecase(authScreenRepository: authScreenRepository),
+              ),
             ),
             ChangeNotifierProvider<BottomNavigationProvider>(
               create: (context) => BottomNavigationProvider(),
@@ -52,6 +81,23 @@ class _MyAppState extends State<MyApp> {
       },
       child: Consumer<AuthScreenProvider>(
         builder: (context, authScreenProvider, child) {
+          Widget homeScreen;
+
+          if (!authScreenProvider.isAuthenticated) {
+            homeScreen = const OnboardingScreen();
+          } else {
+            if (authScreenProvider.userRole == "traveller" || authScreenProvider.userModel!.otherDetails != false) {
+              homeScreen = BottomNavigationScreen(userType: authScreenProvider.userRole!);
+            } else {
+              if (authScreenProvider.userModel!.userType == "hotelier") {
+                homeScreen = const HotelierFormScreen();
+              } else if (authScreenProvider.userModel!.userType == "travel_agent") {
+                homeScreen = const TravelAgentFromScreen();
+              } else {
+                homeScreen = const TransporterFormScreen();
+              }
+            }
+          }
           return MaterialApp(
             theme: ThemeData(
               useMaterial3: false,
@@ -61,7 +107,7 @@ class _MyAppState extends State<MyApp> {
               inputDecorationTheme: InputDecorationThemeData.lightThemeData,
             ),
             debugShowCheckedModeBanner: false,
-            home: const OnboardingScreen(),
+            home: homeScreen,
           );
         },
       ),

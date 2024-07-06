@@ -44,9 +44,8 @@ class SelectSignupUserTypeScreen extends StatelessWidget {
               const Spacer(),
               SignUpTypeWidget(
                 onTap: () {
-                  log("Traveller", name: "Signup user type");
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "Traveller")),
+                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "user")),
                   );
                 },
                 title: "Traveller",
@@ -55,9 +54,8 @@ class SelectSignupUserTypeScreen extends StatelessWidget {
               SizedBox(height: 32.h),
               SignUpTypeWidget(
                 onTap: () {
-                  log("Business User", name: "Signup user type");
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "Business")),
+                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "business")),
                   );
                 },
                 title: "Business User",

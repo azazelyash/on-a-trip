@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
+import 'package:on_a_trip/common/helper/utils.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
+import 'package:on_a_trip/features/onboarding_screens/presentation/screens/onboarding_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/edit_profile_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/order_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/wishlist_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/widgets/profile_element_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -113,7 +119,18 @@ class ProfileScreen extends StatelessWidget {
                   title: 'Help & Support',
                 ),
                 ProfileElementButton(
-                  onTap: () {},
+                  onTap: () async {
+                    try {
+                      await context.read<AuthScreenProvider>().logout();
+
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+                        (context) => false,
+                      );
+                    } catch (e) {
+                      Utils.showSnackBar(context, content: e.toString());
+                    }
+                  },
                   isLast: true,
                   title: 'Logout',
                   icon: Icons.logout,

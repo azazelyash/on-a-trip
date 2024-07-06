@@ -7,8 +7,10 @@ class SignUpTypeWidget extends StatelessWidget {
     this.onTap,
     required this.image,
     required this.title,
+    this.isSelected = false,
   });
 
+  final bool isSelected;
   final VoidCallback? onTap;
   final Widget image;
   final String title;
@@ -26,7 +28,7 @@ class SignUpTypeWidget extends StatelessWidget {
               height: 190,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: CustomColors.primaryColor.withOpacity(0.1),
+                color: (isSelected) ? CustomColors.primaryColor.withOpacity(0.3) : CustomColors.primaryColor.withOpacity(0.1),
               ),
             ),
             Column(

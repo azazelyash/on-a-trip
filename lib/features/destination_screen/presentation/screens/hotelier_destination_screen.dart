@@ -68,8 +68,8 @@ class _HotelierDestinationScreenState extends State<HotelierDestinationScreen> w
               indicatorColor: CustomColors.primaryColor,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: const [
-                Tab(text: "Add Package"),
-                Tab(text: "My Packages"),
+                Tab(text: "Add Hotel"),
+                Tab(text: "My Hotels"),
                 Tab(text: "Bookings"),
               ],
             ),

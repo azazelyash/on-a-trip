@@ -68,8 +68,8 @@ class _TransporterDestinationScreenState extends State<TransporterDestinationScr
               indicatorColor: CustomColors.primaryColor,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: const [
-                Tab(text: "Add Package"),
-                Tab(text: "My Packages"),
+                Tab(text: "Add Transport"),
+                Tab(text: "My Transports"),
                 Tab(text: "Bookings"),
               ],
             ),
