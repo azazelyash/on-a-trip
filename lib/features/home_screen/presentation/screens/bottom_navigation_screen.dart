@@ -58,7 +58,7 @@ class BottomNavigationScreen extends StatelessWidget {
   ];
 
   List<Widget> getSelectedScreen() {
-    if (userType == "user") {
+    if (userType == "traveller") {
       return _selectedUserScreen;
     } else if (userType == "travel_agent") {
       return _selectedTravelAgentScreen;

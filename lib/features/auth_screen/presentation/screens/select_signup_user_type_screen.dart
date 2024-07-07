@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
@@ -45,7 +43,7 @@ class SelectSignupUserTypeScreen extends StatelessWidget {
               SignUpTypeWidget(
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "user")),
+                    MaterialPageRoute(builder: (context) => const SignupFormScreen(userType: "traveller")),
                   );
                 },
                 title: "Traveller",

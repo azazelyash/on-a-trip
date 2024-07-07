@@ -11,7 +11,6 @@ void main() async {
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   await ScreenUtil.ensureScreenSize();
-
   runApp(
     MyApp(
       sharedPreferences: sharedPreferences,

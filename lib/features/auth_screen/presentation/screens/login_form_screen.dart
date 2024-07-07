@@ -167,8 +167,8 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                                 }
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                    builder: (context) => const BottomNavigationScreen(
-                                      userType: "user",
+                                    builder: (context) => BottomNavigationScreen(
+                                      userType: authScreenProvider.userModel!.userType!,
                                     ),
                                   ),
                                   (context) => false,

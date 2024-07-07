@@ -95,6 +95,11 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 ProfileElementButton(
+                  onTap: () {},
+                  icon: Icons.attach_money,
+                  title: 'Buy Credits',
+                ),
+                ProfileElementButton(
                   icon: Icons.location_city_outlined,
                   title: 'Address',
                   onTap: () {},

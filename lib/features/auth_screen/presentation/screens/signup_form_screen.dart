@@ -10,7 +10,6 @@ import 'package:on_a_trip/features/auth_screen/domain/usecases/create_account_us
 import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/login_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/select_business_user_type_screen.dart';
-import 'package:on_a_trip/features/home_screen/presentation/screens/bottom_navigation_screen.dart';
 import 'package:provider/provider.dart';
 
 class SignupFormScreen extends StatefulWidget {
