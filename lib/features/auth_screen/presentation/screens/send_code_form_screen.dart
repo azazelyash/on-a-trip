@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
+import 'package:on_a_trip/common/helper/utils.dart';
 import 'package:on_a_trip/common/widgets/back_button_appbar.dart';
+import 'package:on_a_trip/common/widgets/button_loading_indicator.dart';
 import 'package:on_a_trip/common/widgets/custom_container.dart';
+import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/verify_otp_form_screen.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
+import 'package:provider/provider.dart';
 
 class SendCodeFormScreen extends StatefulWidget {
   const SendCodeFormScreen({super.key});
@@ -15,6 +19,22 @@ class SendCodeFormScreen extends StatefulWidget {
 }
 
 class _SendCodeFormScreenState extends State<SendCodeFormScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  Future<void> _sendOtp() async {
+    try {
+      if (emailController.text.isEmpty) {
+        throw 'Email is required';
+      }
+      final authProvider = context.read<AuthScreenProvider>();
+      authProvider.sendOtpEmail = emailController.text;
+      await authProvider.sendOtp();
+      authProvider.startTime();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,27 +73,41 @@ class _SendCodeFormScreenState extends State<SendCodeFormScreen> {
               ),
               SizedBox(height: 24.h),
               CustomContainer(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Email",
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => const VerifyOtpFormScreen()),
-                          );
-                        },
-                        child: const Text('Send my Code'),
-                      ),
-                    )
-                  ],
+                child: Consumer<AuthScreenProvider>(
+                  builder: (context, authScreenProvider, child) {
+                    return Column(
+                      children: [
+                        TextFormField(
+                          controller: emailController,
+                          enabled: !authScreenProvider.isLoading,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            labelText: "Email",
+                            prefixIcon: Icon(Icons.email_outlined),
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                await _sendOtp();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const VerifyOtpFormScreen(),
+                                  ),
+                                );
+                              } catch (e) {
+                                Utils.showSnackBar(context, content: e.toString());
+                              }
+                            },
+                            child: (authScreenProvider.isLoading) ? const ButtonLoadingIndicator() : const Text('Send my Code'),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/themes/button_theme.dart';
 import 'package:on_a_trip/common/themes/input_decoration_theme.dart';
 import 'package:on_a_trip/common/themes/text_button_theme.dart';
@@ -11,6 +12,9 @@ import 'package:on_a_trip/features/auth_screen/domain/usecases/create_profile_us
 import 'package:on_a_trip/features/auth_screen/domain/usecases/get_user_details_usecase.dart';
 import 'package:on_a_trip/features/auth_screen/domain/usecases/login_usecase.dart';
 import 'package:on_a_trip/features/auth_screen/domain/usecases/logout_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/reset_password_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/send_otp_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/verify_otp_usecase.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/create_profile_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
@@ -59,6 +63,9 @@ class _MyAppState extends State<MyApp> {
               create: (context) => AuthScreenProvider(
                 loginUsecase: LoginUsecase(authScreenRepository: authScreenRepository),
                 logoutUsecase: LogoutUsecase(authScreenRepository: authScreenRepository),
+                sendOtpUsecase: SendOtpUsecase(authScreenRepository: authScreenRepository),
+                verifyOtpUsecase: VerifyOtpUsecase(authScreenRepository: authScreenRepository),
+                resetPasswordUsecase: ResetPasswordUsecase(authScreenRepository: authScreenRepository),
                 createAccountUsecase: CreateAccountUsecase(authScreenRepository: authScreenRepository),
                 getUserDetailsUsecase: GetUserDetailsUsecase(authScreenRepository: authScreenRepository),
                 checkAuthStatusUsecase: CheckAuthStatusUsecase(authScreenRepository: authScreenRepository),
@@ -101,6 +108,11 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             theme: ThemeData(
               useMaterial3: false,
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: CustomColors.primaryColor,
+                selectionHandleColor: CustomColors.primaryColor,
+                selectionColor: CustomColors.primaryColor.withOpacity(0.3),
+              ),
               textButtonTheme: CustomTextButtonThemeData.lightThemeData,
               elevatedButtonTheme: CustomElevatedButtonThemeData.lightThemeData,
               outlinedButtonTheme: CustomOutlineButtonThemeData.lightThemeData,

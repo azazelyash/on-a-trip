@@ -85,7 +85,7 @@ class ProposalTileWidget extends StatelessWidget {
                 horizontal: 16,
               ),
             ),
-            child: const Text("View Detial"),
+            child: const Text("View Details"),
           ),
         ],
       ),

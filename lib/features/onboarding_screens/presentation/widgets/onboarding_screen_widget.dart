@@ -17,9 +17,10 @@ class OnboardingScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160.h,
+      height: 160,
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
+        alignment: Alignment.topCenter,
         children: [
           Container(
             padding: EdgeInsets.all(24.w),
@@ -54,14 +55,12 @@ class OnboardingScreenWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 10,
-            left: MediaQuery.of(context).size.width / 3,
-            right: MediaQuery.of(context).size.width / 3,
+            bottom: 0,
             child: ElevatedButton(
               onPressed: onTap,
               style: ElevatedButton.styleFrom(
                 elevation: 10,
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 36),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),

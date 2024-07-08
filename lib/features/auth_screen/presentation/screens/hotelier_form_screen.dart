@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
@@ -15,6 +16,7 @@ import 'package:on_a_trip/common/widgets/show_image_widget.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/create_profile_provider.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/bottom_navigation_screen.dart';
+import 'package:on_a_trip/features/onboarding_screens/presentation/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
 class HotelierFormScreen extends StatefulWidget {
@@ -91,7 +93,39 @@ class HotelierFormScreenState extends State<HotelierFormScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const BackButtonAppBar(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PopScope(
+                          canPop: false,
+                          onPopInvoked: (value) {
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            } else {
+                              SystemNavigator.pop();
+                            }
+                          },
+                          child: const BackButtonAppBar(),
+                        ),
+                      ),
+                      TextButton(
+                        child: const Text("Change Account"),
+                        onPressed: () async {
+                          try {
+                            await context.read<AuthScreenProvider>().logout();
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => const OnboardingScreen(),
+                              ),
+                              (context) => false,
+                            );
+                          } catch (e) {
+                            Utils.showSnackBar(context, content: e.toString());
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 24.h),
                   const Text(
                     "Hotelier",

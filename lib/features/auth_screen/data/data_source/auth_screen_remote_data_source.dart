@@ -94,4 +94,63 @@ class AuthScreenRemoteDataSource {
       rethrow;
     }
   }
+
+  Future<String> sendOtp({required String email}) async {
+    try {
+      final response = await _httpService.postFormData(
+        url: Endpoints.loginUrl,
+        headers: {
+          "Content-Type": "application/form-data",
+        },
+        body: {
+          "type": "forgetPassword",
+          "email": email,
+        },
+      );
+
+      return response["data"]["otp_token"];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> verifyOtp({required String otp, required String token}) async {
+    try {
+      final response = await _httpService.postFormData(
+        url: Endpoints.loginUrl,
+        headers: {
+          "Content-Type": "application/form-data",
+          "Authorization": "Bearer $token",
+        },
+        body: {
+          "type": "forgetPassword",
+          "otp": otp,
+        },
+      );
+
+      return response["data"]["password_token"];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> changePassword({required String newPassword, required String token}) async {
+    try {
+      final response = await _httpService.postFormData(
+        url: Endpoints.loginUrl,
+        headers: {
+          "Content-Type": "application/form-data",
+          "Authorization": "Bearer $token",
+        },
+        body: {
+          "type": "forgetPassword",
+          "password": newPassword,
+        },
+      );
+
+      return response["data"]["token"];
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

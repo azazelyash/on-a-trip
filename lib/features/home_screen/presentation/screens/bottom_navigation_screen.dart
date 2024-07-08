@@ -3,6 +3,7 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
+import 'package:on_a_trip/features/bidding_screen/presentation/screens/bidding_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/screens/destination_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/screens/hotelier_destination_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/screens/transporter_destination_screen.dart';
@@ -28,7 +29,7 @@ class BottomNavigationScreen extends StatelessWidget {
   static final List<Widget> _selectedUserScreen = [
     const HomeScreen(),
     const DestinationScreen(),
-    const HomeScreen(),
+    const BiddingScreen(),
     const NotificationScreen(),
     const ProfileScreen(),
   ];
@@ -36,7 +37,7 @@ class BottomNavigationScreen extends StatelessWidget {
   static final List<Widget> _selectedTravelAgentScreen = [
     const TravelAgentHomeScreen(),
     const TravelAgentDestinationScreen(),
-    const HomeScreen(),
+    const BiddingScreen(),
     const NotificationScreen(),
     const ProfileScreen(),
   ];
@@ -44,7 +45,7 @@ class BottomNavigationScreen extends StatelessWidget {
   static final List<Widget> _selectedHotelierScreen = [
     const HotelierHomeScreen(),
     const HotelierDestinationScreen(),
-    const HomeScreen(),
+    const BiddingScreen(),
     const NotificationScreen(),
     const ProfileScreen(),
   ];
@@ -52,7 +53,7 @@ class BottomNavigationScreen extends StatelessWidget {
   static final List<Widget> _selectedTransporterScreen = [
     const TransporterHomeScreen(),
     const TransporterDestinationScreen(),
-    const HomeScreen(),
+    const BiddingScreen(),
     const NotificationScreen(),
     const ProfileScreen(),
   ];
