@@ -7,6 +7,7 @@ class Endpoints {
   /* -------------------------------- Auth URL -------------------------------- */
   static const String loginUrl = '$baseUrl/loginApi.php';
   static const String getUserDetail = '$baseUrl/userApi.php';
+  static const String packageApi = '$baseUrl/packageApi.php';
 
   /* ------------------------------- Common URLs ------------------------------ */
 }

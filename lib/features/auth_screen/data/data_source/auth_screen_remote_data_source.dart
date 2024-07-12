@@ -31,7 +31,11 @@ class AuthScreenRemoteDataSource {
       return response["data"]["auth_token"];
     } catch (e) {
       final error = json.decode(e.toString());
-      throw error["errorMessage"].toString();
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -52,7 +56,11 @@ class AuthScreenRemoteDataSource {
       return data;
     } catch (e) {
       final error = json.decode(e.toString());
-      throw error["errorMessage"].toString();
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -110,7 +118,12 @@ class AuthScreenRemoteDataSource {
 
       return response["data"]["otp_token"];
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -130,7 +143,12 @@ class AuthScreenRemoteDataSource {
 
       return response["data"]["password_token"];
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -150,7 +168,12 @@ class AuthScreenRemoteDataSource {
 
       return response["data"]["token"];
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 }

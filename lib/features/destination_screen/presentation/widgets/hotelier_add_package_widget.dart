@@ -1,8 +1,15 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
+import 'package:on_a_trip/common/helper/image_picker_class.dart';
+import 'package:on_a_trip/common/helper/utils.dart';
+import 'package:on_a_trip/common/widgets/button_loading_indicator.dart';
 import 'package:on_a_trip/common/widgets/custom_container.dart';
+import 'package:on_a_trip/common/widgets/show_image_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,42 +21,147 @@ class HotelierAddPackageWidget extends StatefulWidget {
 }
 
 class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
+  final TextEditingController _packageTitleController = TextEditingController();
+  final TextEditingController _noOfDaysController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  final TextEditingController _startFromController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _perPriceController = TextEditingController();
+  final TextEditingController _cabNameController = TextEditingController();
+
+  String? planType;
+  String? transportType;
+  String? priceType;
+
+  Future<void> _addHotelPackage() async {
+    try {
+      final destinationProvider = context.read<DestinationScreenProvider>();
+      if (destinationProvider.hotelPackageImages.isEmpty) {
+        throw "Please select at least one image";
+      }
+      if (_packageTitleController.text.isEmpty) {
+        throw "Please enter package title";
+      }
+      if (_noOfDaysController.text.isEmpty) {
+        throw "Please enter no of days";
+      }
+      if (_addressController.text.isEmpty) {
+        throw "Please enter address";
+      }
+      if (planType == null) {
+        throw "Please select plan type";
+      }
+      if (_startFromController.text.isEmpty && destinationProvider.includeSightSeeingInHotelPackage) {
+        throw "Please enter start from";
+      }
+      if (_cabNameController.text.isEmpty && destinationProvider.includeTransportInHotelPackage) {
+        throw "Please enter cab name/model";
+      }
+      if (_perPriceController.text.isEmpty) {
+        throw "Please enter price per person";
+      }
+      if (_descriptionController.text.isEmpty) {
+        throw "Please enter description";
+      }
+      if (priceType == null) {
+        throw "Please select price type";
+      }
+
+      final images = destinationProvider.hotelPackageImages.asMap().map(
+            (key, value) => MapEntry("image[]", value),
+          );
+
+      Map<String, dynamic> params = {
+        'type': 'addHotel',
+        'plan_type': planType,
+        'transport_type': transportType ?? "",
+        'price': _perPriceController.text.trim(),
+        'address': _addressController.text.trim(),
+        'per_price': priceType,
+        'no_of_days': _noOfDaysController.text.trim(),
+        'description': _descriptionController.text.trim(),
+        'package_title': _packageTitleController.text.trim(),
+        'start_from[]': _startFromController.text.isEmpty ? "" : _startFromController.text.trim(),
+        'cab_name': _cabNameController.text.isEmpty ? "" : _cabNameController.text.trim(),
+        'includes[]': 'transport',
+      };
+
+      await destinationProvider.addPackage(
+        body: params,
+        images: images,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Consumer<DestinationScreenProvider>(
-        builder: (context, destinationScreenProvider, child) {
-          return Column(
-            children: [
-              CachedNetworkImage(
-                imageUrl: "https://www.usatoday.com/gcdn/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg",
-                imageBuilder: (context, imageProvider) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                placeholder: (context, imageProvider) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: CustomColors.cardColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+      child: Column(
+        children: [
+          CachedNetworkImage(
+            imageUrl: "https://www.usatoday.com/gcdn/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg",
+            imageBuilder: (context, imageProvider) => Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 16.h),
-              CustomContainer(
-                child: Column(
+            ),
+            placeholder: (context, imageProvider) => Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: CustomColors.cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+          SizedBox(height: 16.h),
+          CustomContainer(
+            child: Consumer<DestinationScreenProvider>(
+              builder: (context, destinationScreenProvider, child) {
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    (destinationScreenProvider.hotelPackageImages.isNotEmpty)
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => ShowImageWidget(
+                              image: destinationScreenProvider.hotelPackageImages[index],
+                              onTap: () {
+                                destinationScreenProvider.removeHotelPackageImage(index);
+                              },
+                            ),
+                            itemCount: destinationScreenProvider.hotelPackageImages.length,
+                          )
+                        : ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                List<File> pickedFile;
+                                pickedFile = await FetchImage.pickMultipleImage();
+
+                                destinationScreenProvider.hotelPackageImages = pickedFile;
+                              } catch (e) {
+                                Utils.showSnackBar(context, content: e.toString());
+                              }
+                            },
+                            child: const Icon(
+                              size: 18,
+                              Icons.add_a_photo,
+                            ),
+                          ),
+                    SizedBox(height: 12.h),
                     TextFormField(
+                      controller: _packageTitleController,
                       decoration: const InputDecoration(
                         labelText: "Package Title",
                         prefixIcon: Icon(Icons.tour_outlined),
@@ -57,6 +169,7 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                     ),
                     SizedBox(height: 12.h),
                     TextFormField(
+                      controller: _noOfDaysController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: "No. of Days",
@@ -65,6 +178,7 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                     ),
                     SizedBox(height: 12.h),
                     TextFormField(
+                      controller: _addressController,
                       decoration: const InputDecoration(
                         labelText: "Address",
                         prefixIcon: Icon(Icons.place_outlined),
@@ -78,11 +192,11 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                       ),
                       items: const [
                         DropdownMenuItem(
-                          value: "ep",
+                          value: "EP",
                           child: Text("EP"),
                         ),
                         DropdownMenuItem(
-                          value: "cp",
+                          value: "CP",
                           child: Text("CP"),
                         ),
                         DropdownMenuItem(
@@ -94,7 +208,9 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                           child: Text("AP"),
                         ),
                       ],
-                      onChanged: (newVal) {},
+                      onChanged: (newVal) {
+                        planType = newVal;
+                      },
                     ),
                     SizedBox(height: 16.h),
                     const Text(
@@ -144,6 +260,7 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                             children: [
                               SizedBox(height: 12.h),
                               TextFormField(
+                                controller: _startFromController,
                                 decoration: const InputDecoration(
                                   labelText: "Starts From",
                                   prefixIcon: Icon(Icons.place_outlined),
@@ -163,34 +280,45 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                                 ),
                                 items: const [
                                   DropdownMenuItem(
-                                    value: "Hatch Back",
+                                    value: "hatchback",
                                     child: Text("Hatch Back"),
                                   ),
                                   DropdownMenuItem(
-                                    value: "Sedan",
+                                    value: "sedan",
                                     child: Text("Sedan"),
                                   ),
                                   DropdownMenuItem(
-                                    value: "MUV",
+                                    value: "muv",
                                     child: Text("MUV"),
                                   ),
                                   DropdownMenuItem(
-                                    value: "SUV",
+                                    value: "suv",
                                     child: Text("SUV"),
                                   ),
                                   DropdownMenuItem(
-                                    value: "Tempo Traveller",
+                                    value: "temp_traveller",
                                     child: Text("Tempo Traveller"),
                                   ),
                                   DropdownMenuItem(
-                                    value: "Bus",
+                                    value: "train",
+                                    child: Text("Train"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: "plain",
+                                    child: Text("Airplane"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: "bus",
                                     child: Text("Bus"),
                                   ),
                                 ],
-                                onChanged: (newVal) {},
+                                onChanged: (newVal) {
+                                  transportType = newVal;
+                                },
                               ),
                               SizedBox(height: 12.h),
                               TextFormField(
+                                controller: _cabNameController,
                                 decoration: const InputDecoration(
                                   labelText: "Cab Name/Model",
                                   prefixIcon: Icon(Icons.car_rental_outlined),
@@ -200,34 +328,57 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                           )
                         : const SizedBox.shrink(),
                     SizedBox(height: 12.h),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Price Per Person",
-                        prefixIcon: Icon(Icons.price_change_outlined),
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
                     DropdownButtonFormField(
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.group_outlined),
-                        labelText: "Couple",
+                        prefixIcon: Icon(Icons.drive_eta_outlined),
+                        labelText: "Price Type",
                       ),
                       items: const [
                         DropdownMenuItem(
-                          value: "Yes",
-                          child: Text("Yes"),
+                          value: "per_person",
+                          child: Text("Per Person"),
                         ),
                         DropdownMenuItem(
-                          value: "No",
-                          child: Text("No"),
+                          value: "per_couple",
+                          child: Text("Per Couple"),
                         ),
                       ],
-                      onChanged: (newVal) {},
+                      onChanged: (newVal) {
+                        priceType = newVal;
+                      },
                     ),
+                    SizedBox(height: 12.h),
+                    TextFormField(
+                      controller: _perPriceController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: "Price",
+                        prefixIcon: Icon(Icons.price_change_outlined),
+                      ),
+                    ),
+                    // SizedBox(height: 12.h),
+                    // DropdownButtonFormField(
+                    //   decoration: const InputDecoration(
+                    //     prefixIcon: Icon(Icons.group_outlined),
+                    //     labelText: "Couple",
+                    //   ),
+                    //   items: const [
+                    //     DropdownMenuItem(
+                    //       value: "Yes",
+                    //       child: Text("Yes"),
+                    //     ),
+                    //     DropdownMenuItem(
+                    //       value: "No",
+                    //       child: Text("No"),
+                    //     ),
+                    //   ],
+                    //   onChanged: (newVal) {},
+                    // ),
                     SizedBox(height: 12.h),
                     TextFormField(
                       minLines: 3,
                       maxLines: null,
+                      controller: _descriptionController,
                       decoration: const InputDecoration(
                         labelText: "Package Description",
                         prefixIcon: Icon(Icons.description_outlined),
@@ -237,16 +388,25 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text("Create Package"),
+                        onPressed: () async {
+                          try {
+                            await _addHotelPackage();
+                            // clearAllFields();
+                            Utils.showSnackBar(context, content: "Package Created Successfully");
+                          } catch (e) {
+                            log(e.toString(), name: "Error in creating package");
+                            Utils.showSnackBar(context, content: e.toString());
+                          }
+                        },
+                        child: (destinationScreenProvider.isLoading) ? const ButtonLoadingIndicator() : const Text("Create Package"),
                       ),
                     )
                   ],
-                ),
-              ),
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

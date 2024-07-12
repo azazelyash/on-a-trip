@@ -4,7 +4,7 @@ import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
-import 'package:on_a_trip/features/destination_screen/presentation/widgets/our_package_widget.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/widgets/my_transport_list_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/proposal_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/transporter_add_package_widget.dart';
 
@@ -32,7 +32,7 @@ class _TransporterDestinationScreenState extends State<TransporterDestinationScr
 
   static const List<Widget> _tabs = [
     TransporterAddPackageWidget(),
-    OurPackagesWidget(),
+    MyTransportListWidget(),
     ProposalWidget(),
   ];
 

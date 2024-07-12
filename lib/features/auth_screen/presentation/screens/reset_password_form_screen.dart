@@ -107,23 +107,6 @@ class _ResetPasswordFormScreenState extends State<ResetPasswordFormScreen> {
                             labelText: "Confirm Password",
                           ),
                         ),
-                        // SizedBox(height: 12.h),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     TextButton(
-                        //       onPressed: () {},
-                        //       child: const Text("Resend Code"),
-                        //     ),
-                        //     SizedBox(width: 10.w),
-                        //     const Text(
-                        //       "00:59s",
-                        //       style: TextStyle(
-                        //         color: CustomColors.highlightText,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                         SizedBox(height: 20.h),
                         SizedBox(
                           width: double.infinity,
@@ -159,7 +142,7 @@ class _ResetPasswordFormScreenState extends State<ResetPasswordFormScreen> {
                                 Utils.showSnackBar(context, content: e.toString());
                               }
                             },
-                            child: (authScreenProvider.isLoading) ? const ButtonLoadingIndicator() : const Text('Reset Password'),
+                            child: (authScreenProvider.isLoading) ? const ButtonLoadingIndicator() : const Text('Update'),
                           ),
                         )
                       ],

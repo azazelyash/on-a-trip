@@ -163,7 +163,7 @@ class _VerifyOtpFormScreenState extends State<VerifyOtpFormScreen> {
                             Utils.showSnackBar(context, content: e.toString());
                           }
                         },
-                        child: (context.watch<AuthScreenProvider>().isLoading) ? const ButtonLoadingIndicator() : const Text('Send my Code'),
+                        child: (context.watch<AuthScreenProvider>().isLoading) ? const ButtonLoadingIndicator() : const Text('Verify Code'),
                       ),
                     )
                   ],

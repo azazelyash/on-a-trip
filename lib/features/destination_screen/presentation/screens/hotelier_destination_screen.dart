@@ -5,7 +5,7 @@ import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/hotelier_add_package_widget.dart';
-import 'package:on_a_trip/features/destination_screen/presentation/widgets/our_package_widget.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/widgets/my_hotel_list_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/proposal_widget.dart';
 
 class HotelierDestinationScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _HotelierDestinationScreenState extends State<HotelierDestinationScreen> w
 
   static const List<Widget> _tabs = [
     HotelierAddPackageWidget(),
-    OurPackagesWidget(),
+    MyHotelListWidget(),
     ProposalWidget(),
   ];
 

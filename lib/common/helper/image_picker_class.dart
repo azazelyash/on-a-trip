@@ -23,4 +23,21 @@ class FetchImage {
       rethrow;
     }
   }
+
+  static Future<List<File>> pickMultipleImage() async {
+    try {
+      List<XFile> pickedFile = [];
+
+      pickedFile = await ImagePicker().pickMultiImage(limit: 5);
+
+      if (pickedFile.isNotEmpty) {
+        List<File> files = pickedFile.map((e) => File(e.path)).toList();
+        return files;
+      }
+
+      return [];
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

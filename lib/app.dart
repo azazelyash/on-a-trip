@@ -20,6 +20,12 @@ import 'package:on_a_trip/features/auth_screen/presentation/provider/create_prof
 import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/transporter_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/travel_agent_from_screen.dart';
+import 'package:on_a_trip/features/destination_screen/data/data_source/destination_screen_remote_data_source.dart';
+import 'package:on_a_trip/features/destination_screen/data/repository/destination_screen_repository_impl.dart';
+import 'package:on_a_trip/features/destination_screen/domain/usecases/add_package_usecase.dart';
+import 'package:on_a_trip/features/destination_screen/domain/usecases/get_holiday_package_usecase.dart';
+import 'package:on_a_trip/features/destination_screen/domain/usecases/get_hotel_package_usecase.dart';
+import 'package:on_a_trip/features/destination_screen/domain/usecases/get_transport_package_usecase.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/bottom_navigation_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
@@ -53,6 +59,11 @@ class _MyAppState extends State<MyApp> {
       authScreenRemoteDataSource: AuthScreenRemoteDataSource(httpService: httpService),
     );
 
+    final DestinationScreenRepositoryImpl destinationScreenRepository = DestinationScreenRepositoryImpl(
+      tokenManager: tokenManager,
+      destinationScreenRemoteDataSource: DestinationScreenRemoteDataSource(httpService: httpService),
+    );
+
     return ScreenUtilInit(
       minTextAdapt: true,
       designSize: const Size(390, 844),
@@ -80,7 +91,12 @@ class _MyAppState extends State<MyApp> {
               create: (context) => BottomNavigationProvider(),
             ),
             ChangeNotifierProvider<DestinationScreenProvider>(
-              create: (context) => DestinationScreenProvider(),
+              create: (context) => DestinationScreenProvider(
+                getHotelPackageUsecase: GetHotelPackageUsecase(destinationScreenRepository: destinationScreenRepository),
+                getHolidayPackageUsecase: GetHolidayPackageUsecase(destinationScreenRepository: destinationScreenRepository),
+                addPackageUsecase: AddPackageUsecase(destinationScreenRepository: destinationScreenRepository),
+                getTransportPackageUsecase: GetTransportPackageUsecase(destinationScreenRepository: destinationScreenRepository),
+              ),
             ),
           ],
           child: child,

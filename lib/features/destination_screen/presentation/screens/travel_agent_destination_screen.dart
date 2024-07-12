@@ -4,6 +4,7 @@ import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/widgets/my_holiday_package_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/our_package_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/proposal_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/travel_agent_add_package_widget.dart';
@@ -32,7 +33,7 @@ class _TravelAgentDestinationScreenState extends State<TravelAgentDestinationScr
 
   static const List<Widget> _tabs = [
     TravelAgentAddPackageWidget(),
-    OurPackagesWidget(),
+    MyHolidayPackageWidget(),
     ProposalWidget(),
   ];
 

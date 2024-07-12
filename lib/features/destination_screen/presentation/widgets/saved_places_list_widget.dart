@@ -42,7 +42,7 @@ class SavedPlacesListWidget extends StatelessWidget {
                   onTap: () {
                     // Navigator.of(context).push(
                     //   MaterialPageRoute(
-                    //     builder: (context) => const DestinationDetailsPage(),
+                    //     builder: (context) => const DestinationDetial(),
                     //   ),
                     // );
                   },

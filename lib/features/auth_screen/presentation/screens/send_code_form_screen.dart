@@ -27,6 +27,9 @@ class _SendCodeFormScreenState extends State<SendCodeFormScreen> {
         throw 'Email is required';
       }
       final authProvider = context.read<AuthScreenProvider>();
+      if(authProvider.isLoading) {
+        throw 'Please wait for the previous action to complete';
+      };
       authProvider.sendOtpEmail = emailController.text;
       await authProvider.sendOtp();
       authProvider.startTime();
