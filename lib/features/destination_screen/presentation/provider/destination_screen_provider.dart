@@ -42,6 +42,30 @@ class DestinationScreenProvider extends LoadingProvider {
     notifyListeners();
   }
 
+  List<TransportPackageModel> _myTransportPackages = [];
+  List<TransportPackageModel> get myTransportPackages => _myTransportPackages;
+
+  set myTransportPackages(List<TransportPackageModel> value) {
+    _myTransportPackages = value;
+    notifyListeners();
+  }
+
+  List<HotelPackageModel> _myHotelPackages = [];
+  List<HotelPackageModel> get myHotelPackages => _myHotelPackages;
+
+  set myHotelPackages(List<HotelPackageModel> value) {
+    _myHotelPackages = value;
+    notifyListeners();
+  }
+
+  List<HolidayPackageModel> _myHolidayPackages = [];
+  List<HolidayPackageModel> get myHolidayPackages => _myHolidayPackages;
+
+  set myHolidayPackages(List<HolidayPackageModel> value) {
+    _myHolidayPackages = value;
+    notifyListeners();
+  }
+
   List<File> _hotelPackageImages = [];
   List<File> get hotelPackageImages => _hotelPackageImages;
 
@@ -83,18 +107,18 @@ class DestinationScreenProvider extends LoadingProvider {
 
   Future<void> addPackage({
     required Map<String, dynamic> body,
-    required Map<String, File> images,
+    required List<File> images,
   }) async {
     try {
       isLoading = true;
       List<http.MultipartFile> imageList = [];
 
-      for (var image in images.entries) {
-        final mimeTypeData = lookupMimeType(image.value.path)!.split('/');
+      for (var image in images) {
+        final mimeTypeData = lookupMimeType(image.path)!.split('/');
 
         final http.MultipartFile file = await http.MultipartFile.fromPath(
-          image.key,
-          image.value.path,
+          'image[]',
+          image.path,
           contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
         );
 
@@ -118,9 +142,15 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetTransportPackageParams params,
   }) async {
     try {
-      return await getTransportPackageUsecase.execute(params: params);
+      isLoading = true;
+      final data = await getTransportPackageUsecase.execute(params: params);
+      myTransportPackages = data;
+
+      return data;
     } catch (e) {
       rethrow;
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -128,9 +158,14 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetHotelPackageParams params,
   }) async {
     try {
-      return await getHotelPackageUsecase.execute(params: params);
+      isLoading = true;
+      final data = await getHotelPackageUsecase.execute(params: params);
+      myHotelPackages = data;
+      return data;
     } catch (e) {
       rethrow;
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -138,9 +173,14 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetHolidayPackageParams params,
   }) async {
     try {
-      return await getHolidayPackageUsecase.execute(params: params);
+      isLoading = true;
+      final data = await getHolidayPackageUsecase.execute(params: params);
+      myHolidayPackages = data;
+      return data;
     } catch (e) {
       rethrow;
+    } finally {
+      isLoading = false;
     }
   }
 }

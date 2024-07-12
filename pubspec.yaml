@@ -22,7 +22,7 @@ dependencies:
   cached_network_image: ^3.3.1
   custom_navigation_bar: ^0.8.2
   flutter_native_splash: ^2.4.0
-  smooth_page_indicator: ^1.1.0
+  smooth_page_indicator: ^1.2.0
   otp_text_field_v2: ^1.0.3
   mime: ^1.0.5
   http_parser:

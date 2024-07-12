@@ -7,6 +7,8 @@ import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/my_transport_list_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/proposal_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/transporter_add_package_widget.dart';
+import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 class TransporterDestinationScreen extends StatefulWidget {
   const TransporterDestinationScreen({super.key});
@@ -15,6 +17,8 @@ class TransporterDestinationScreen extends StatefulWidget {
   State<TransporterDestinationScreen> createState() => _TransporterDestinationScreenState();
 }
 
+final transporterTabControllerKey = GlobalKey<State<TabBar>>();
+
 class _TransporterDestinationScreenState extends State<TransporterDestinationScreen> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -22,6 +26,11 @@ class _TransporterDestinationScreenState extends State<TransporterDestinationScr
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    final bottomNavProvider = context.read<BottomNavigationProvider>();
+    _tabController.index = bottomNavProvider.selectedTabIndex;
+    _tabController.addListener(() {
+      bottomNavProvider.selectedTabIndex = _tabController.index;
+    });
   }
 
   @override

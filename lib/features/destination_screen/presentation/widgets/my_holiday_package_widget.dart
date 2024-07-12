@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:on_a_trip/features/destination_screen/data/models/holiday_package_model.dart';
 import 'package:on_a_trip/features/destination_screen/domain/usecases/get_holiday_package_usecase.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/holiday_package_detail_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/saved_places_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +52,13 @@ class _MyHolidayPackageWidgetState extends State<MyHolidayPackageWidget> {
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<HolidayPackageModel>(
         itemBuilder: (context, item, index) => SavedPlacesListWidget(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => HolidayPackageDetailScreen(holidayPackageModel: item),
+              ),
+            );
+          },
           imageUrl: item.images![0],
           title: item.title!,
           locationSubtitle: item.destination!.toString(),

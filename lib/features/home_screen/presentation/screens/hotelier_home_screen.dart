@@ -2,15 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
+import 'package:on_a_trip/features/destination_screen/domain/usecases/get_hotel_package_usecase.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
+import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/my_prroposal_tile_widget.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/new_proposal_tile_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/spaces.dart';
 import '../widgets/popular_destination_tile_widget.dart';
 
-class HotelierHomeScreen extends StatelessWidget {
+class HotelierHomeScreen extends StatefulWidget {
   const HotelierHomeScreen({super.key});
+
+  @override
+  State<HotelierHomeScreen> createState() => _HotelierHomeScreenState();
+}
+
+class _HotelierHomeScreenState extends State<HotelierHomeScreen> {
+  @override
+  void initState() {
+    Future.microtask(() {
+      getHotelPackage();
+    });
+    super.initState();
+  }
+
+  Future<void> getHotelPackage() async {
+    final destinationProvider = context.read<DestinationScreenProvider>();
+    await destinationProvider.getHotelPackage(
+      params: GetHotelPackageParams(page: 1),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +62,9 @@ class HotelierHomeScreen extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<BottomNavigationProvider>().navigateToTab(1, 1);
+                },
                 child: const Text(
                   "View All",
                   style: TextStyle(fontSize: 12),
@@ -48,37 +74,45 @@ class HotelierHomeScreen extends StatelessWidget {
           ),
           SizedBox(
             height: 200,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: const [
-                PopularDestinationTileWidget(
-                  imageUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
-                  title: "Santorini",
-                  locationSubtitle: "Greece",
-                ),
-                PopularDestinationTileWidget(
-                  imageUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Cappadocia-Turkey-popsugar.com_.jpg",
-                  title: "Santorini",
-                  locationSubtitle: "Greece",
-                ),
-                PopularDestinationTileWidget(
-                  imageUrl: "https://ihplb.b-cdn.net/wp-content/uploads/2021/06/Maldives.jpeg",
-                  title: "Santorini",
-                  locationSubtitle: "Greece",
-                ),
-                PopularDestinationTileWidget(
-                  imageUrl: "https://theplanetd.com/images/vietnam-sapa-rice-terraces.jpg",
-                  title: "Santorini",
-                  locationSubtitle: "Greece",
-                ),
-                PopularDestinationTileWidget(
-                  imageUrl: "https://media.timeout.com/images/106032809/750/562/image.jpg",
-                  title: "Santorini",
-                  locationSubtitle: "Greece",
-                ),
-              ],
-            ),
+            child: (context.watch<DestinationScreenProvider>().isLoading)
+                ? const Center(
+                    child: CircularProgressIndicator(color: CustomColors.primaryColor),
+                  )
+                : (context.watch<DestinationScreenProvider>().myHotelPackages.isEmpty)
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "No data found",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: CustomColors.titleColor,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                getHotelPackage();
+                              },
+                              child: const Text("Retry"),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: context.watch<DestinationScreenProvider>().myHotelPackages.length,
+                        itemBuilder: (context, index) {
+                          final data = context.watch<DestinationScreenProvider>().myHotelPackages[index];
+                          return PopularDestinationTileWidget(
+                            imageUrl: data.image![0],
+                            title: data.title!,
+                            locationSubtitle: data.transportType!,
+                          );
+                        },
+                      ),
           ),
           SizedBox(height: 12.h),
           Row(

@@ -7,6 +7,8 @@ import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/hotelier_add_package_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/my_hotel_list_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/proposal_widget.dart';
+import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 class HotelierDestinationScreen extends StatefulWidget {
   const HotelierDestinationScreen({super.key});
@@ -22,6 +24,11 @@ class _HotelierDestinationScreenState extends State<HotelierDestinationScreen> w
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    final bottomNavProvider = context.read<BottomNavigationProvider>();
+    _tabController.index = bottomNavProvider.selectedTabIndex;
+    _tabController.addListener(() {
+      bottomNavProvider.selectedTabIndex = _tabController.index;
+    });
   }
 
   @override

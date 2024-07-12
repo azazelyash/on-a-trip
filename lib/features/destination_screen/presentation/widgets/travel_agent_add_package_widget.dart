@@ -65,9 +65,7 @@ class _TravelAgentAddPackageWidgetState extends State<TravelAgentAddPackageWidge
         throw "Please select price type";
       }
 
-      final images = destinationProvider.holidayPackageImages.asMap().map(
-            (key, value) => MapEntry("image[]", value),
-          );
+      final images = destinationProvider.holidayPackageImages;
 
       Map<String, dynamic> params = {
         'plan_type': planType,

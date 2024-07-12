@@ -62,9 +62,7 @@ class _TransporterAddPackageWidgetState extends State<TransporterAddPackageWidge
         throw "Please select price type";
       }
 
-      final images = destinationProvider.transporterPackageImages.asMap().map(
-            (key, value) => MapEntry("image[]", value),
-          );
+      final images = destinationProvider.transporterPackageImages;
 
       Map<String, dynamic> params = {
         'type': 'addTransport',

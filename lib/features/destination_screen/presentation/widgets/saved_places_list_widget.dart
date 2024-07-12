@@ -8,11 +8,13 @@ class SavedPlacesListWidget extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.title,
+    required this.onTap,
     required this.locationSubtitle,
   });
 
   final String imageUrl;
   final String title;
+  final VoidCallback onTap;
   final String locationSubtitle;
 
   @override
@@ -39,13 +41,7 @@ class SavedPlacesListWidget extends StatelessWidget {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
                 child: InkWell(
-                  onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const DestinationDetial(),
-                    //   ),
-                    // );
-                  },
+                  onTap: onTap,
                   borderRadius: BorderRadius.circular(10),
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(

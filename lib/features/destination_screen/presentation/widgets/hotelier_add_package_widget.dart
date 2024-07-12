@@ -68,9 +68,7 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
         throw "Please select price type";
       }
 
-      final images = destinationProvider.hotelPackageImages.asMap().map(
-            (key, value) => MapEntry("image[]", value),
-          );
+      final images = destinationProvider.hotelPackageImages;
 
       Map<String, dynamic> params = {
         'type': 'addHotel',

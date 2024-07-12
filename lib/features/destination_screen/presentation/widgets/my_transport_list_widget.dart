@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:on_a_trip/features/destination_screen/data/models/transport_package_model.dart';
 import 'package:on_a_trip/features/destination_screen/domain/usecases/get_transport_package_usecase.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/transport_package_detail_screen.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/widgets/saved_places_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +55,13 @@ class _MyTransportListWidgetState extends State<MyTransportListWidget> {
       builderDelegate: PagedChildBuilderDelegate<TransportPackageModel>(
         itemBuilder: (context, item, index) {
           return SavedPlacesListWidget(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TransportPackageDetailScreen(transportPackageModel: item),
+                ),
+              );
+            },
             imageUrl: item.image![0],
             title: item.title!,
             locationSubtitle: item.transportType!.toString(),
