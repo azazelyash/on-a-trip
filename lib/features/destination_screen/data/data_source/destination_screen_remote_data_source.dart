@@ -36,7 +36,12 @@ class DestinationScreenRemoteDataSource {
       if (error["errorMessage"] != null) {
         throw error["errorMessage"].toString();
       } else {
-        rethrow;
+        final error = json.decode(e.toString());
+        if (error["errorMessage"] != null) {
+          throw error["errorMessage"].toString();
+        } else {
+          rethrow;
+        }
       }
     }
   }
@@ -62,7 +67,12 @@ class DestinationScreenRemoteDataSource {
 
       return data;
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -83,7 +93,12 @@ class DestinationScreenRemoteDataSource {
 
       return data;
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -104,7 +119,12 @@ class DestinationScreenRemoteDataSource {
 
       return data;
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 }

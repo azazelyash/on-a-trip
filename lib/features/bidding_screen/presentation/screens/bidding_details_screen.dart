@@ -283,6 +283,7 @@ class AdditionalnformationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 2,
@@ -290,6 +291,7 @@ class AdditionalnformationWidget extends StatelessWidget {
             title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
           ),
         ),

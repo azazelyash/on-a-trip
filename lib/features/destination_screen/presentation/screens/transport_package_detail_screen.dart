@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/helper/image_list_generater.dart';
 import 'package:on_a_trip/common/widgets/back_button_appbar.dart';
+import 'package:on_a_trip/common/widgets/card_title_widget.dart';
 import 'package:on_a_trip/common/widgets/custom_container.dart';
 import 'package:on_a_trip/common/widgets/image_slider_widget.dart';
+import 'package:on_a_trip/common/widgets/to_from_card_container.dart';
 import 'package:on_a_trip/features/bidding_screen/presentation/screens/bidding_details_screen.dart';
 import 'package:on_a_trip/features/destination_screen/data/models/transport_package_model.dart';
+import 'package:on_a_trip/gen/assets.gen.dart';
 
 class TransportPackageDetailScreen extends StatefulWidget {
   const TransportPackageDetailScreen({super.key, required this.transportPackageModel});
@@ -31,6 +35,30 @@ class _TransportPackageDetailScreenState extends State<TransportPackageDetailScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red.shade700,
+                  side: BorderSide(color: Colors.red.shade700),
+                ),
+                child: const Text("Delete"),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text("Edit"),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -43,10 +71,11 @@ class _TransportPackageDetailScreenState extends State<TransportPackageDetailScr
               const BackButtonAppBar(),
               SizedBox(height: 20.h),
               const Text(
-                "Package Details",
+                "Transport Package Details",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: CustomColors.primaryColor,
                 ),
               ),
               SizedBox(height: 20.h),
@@ -70,59 +99,73 @@ class _TransportPackageDetailScreenState extends State<TransportPackageDetailScr
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Transport Details",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    CardTitleWidget(
+                      image: Assets.images.accessibilty.image(height: 64),
+                      title: "Package Details",
                     ),
-                    SizedBox(height: 4.h),
-                    const Divider(),
-                    SizedBox(height: 4.h),
-                    AdditionalnformationWidget(
-                      title: "Package Name",
-                      value: widget.transportPackageModel.title!,
+                    SizedBox(height: 20.h),
+                    CardChildrenWidget(
+                      children: [
+                        AdditionalnformationWidget(
+                          title: "Package Name",
+                          value: widget.transportPackageModel.title!,
+                        ),
+                        SizedBox(height: 8.h),
+                        AdditionalnformationWidget(
+                          title: "Duration",
+                          value: widget.transportPackageModel.noOfDays!.toString(),
+                        ),
+                        SizedBox(height: 8.h),
+                        AdditionalnformationWidget(
+                          title: "Description",
+                          value: widget.transportPackageModel.description ?? 'N/A',
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Duration",
-                      value: widget.transportPackageModel.noOfDays!.toString(),
+                    SizedBox(height: 16.h),
+                    ToFromCardContainer(
+                      startTitle: "Boarding",
+                      destinationTitle: "Destination",
+                      startValue: widget.transportPackageModel.startFrom?.join(', ') ?? 'N/A',
+                      destinationValue: widget.transportPackageModel.destination ?? 'N/A',
                     ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Destination",
-                      value: widget.transportPackageModel.destination ?? 'N/A',
+                    SizedBox(height: 20.h),
+                    CardTitleWidget(
+                      image: Assets.images.parking.image(height: 64),
+                      title: "Transport Details",
                     ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Transport Type",
-                      value: widget.transportPackageModel.transportType ?? 'N/A',
+                    SizedBox(height: 20.h),
+                    CardChildrenWidget(
+                      children: [
+                        AdditionalnformationWidget(
+                          title: "Transport Type",
+                          value: widget.transportPackageModel.transportType ?? 'N/A',
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Start From",
-                      value: widget.transportPackageModel.startFrom?.join(', ') ?? 'N/A',
+                    SizedBox(height: 20.h),
+                    CardTitleWidget(
+                      image: Assets.images.accessibilty.image(height: 64),
+                      title: "Price Details",
                     ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Description",
-                      value: widget.transportPackageModel.description ?? 'N/A',
-                    ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Price",
-                      value: widget.transportPackageModel.price?.toString() ?? 'N/A',
-                    ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Price Per",
-                      value: widget.transportPackageModel.pricePer ?? 'N/A',
-                    ),
-                    SizedBox(height: 8.h),
-                    AdditionalnformationWidget(
-                      title: "Active",
-                      value: widget.transportPackageModel.active! == 1 ? 'Yes' : 'No',
+                    SizedBox(height: 20.h),
+                    CardChildrenWidget(
+                      children: [
+                        AdditionalnformationWidget(
+                          title: "Active",
+                          value: widget.transportPackageModel.active! == 1 ? 'Yes' : 'No',
+                        ),
+                        SizedBox(height: 8.h),
+                        AdditionalnformationWidget(
+                          title: "Price Type",
+                          value: widget.transportPackageModel.pricePer ?? 'N/A',
+                        ),
+                        SizedBox(height: 8.h),
+                        AdditionalnformationWidget(
+                          title: "Price",
+                          value: widget.transportPackageModel.price?.toString() ?? 'N/A',
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -130,6 +173,25 @@ class _TransportPackageDetailScreenState extends State<TransportPackageDetailScr
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CardChildrenWidget extends StatelessWidget {
+  const CardChildrenWidget({
+    super.key,
+    required this.children,
+  });
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Column(
+        children: children,
       ),
     );
   }

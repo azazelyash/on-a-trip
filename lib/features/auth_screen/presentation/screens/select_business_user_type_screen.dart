@@ -5,6 +5,7 @@ import 'package:on_a_trip/common/constants/spaces.dart';
 import 'package:on_a_trip/common/helper/utils.dart';
 import 'package:on_a_trip/common/widgets/back_button_appbar.dart';
 import 'package:on_a_trip/features/auth_screen/domain/usecases/create_account_usecase.dart';
+import 'package:on_a_trip/features/auth_screen/domain/usecases/login_usecase.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/provider/auth_screen_provider.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/hotelier_form_screen.dart';
 import 'package:on_a_trip/features/auth_screen/presentation/screens/transporter_form_screen.dart';
@@ -47,6 +48,12 @@ class _SelectBusinessUserTypeScreenState extends State<SelectBusinessUserTypeScr
               password: widget.password,
               phone: widget.phone,
               userType: selectedBusinessType,
+            ),
+          );
+      await context.read<AuthScreenProvider>().login(
+            params: LoginParams(
+              email: widget.email,
+              password: widget.password,
             ),
           );
     } catch (e) {

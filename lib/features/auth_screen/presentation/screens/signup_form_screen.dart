@@ -42,6 +42,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
       if (_phoneController.text.isEmpty) {
         throw "Phone is required";
       }
+      if (_phoneController.text.length != 10) {
+        throw "Phone number must be 10 digits";
+      }
       if (_passwordController.text.isEmpty) {
         throw "Password is required";
       }

@@ -81,7 +81,12 @@ class AuthScreenRemoteDataSource {
         },
       );
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -99,7 +104,12 @@ class AuthScreenRemoteDataSource {
         body: params.body!,
       );
     } catch (e) {
-      rethrow;
+      final error = json.decode(e.toString());
+      if (error["errorMessage"] != null) {
+        throw error["errorMessage"].toString();
+      } else {
+        rethrow;
+      }
     }
   }
 
