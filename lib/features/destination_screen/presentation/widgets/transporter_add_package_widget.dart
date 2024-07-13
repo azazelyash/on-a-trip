@@ -10,8 +10,6 @@ import 'package:on_a_trip/common/widgets/button_loading_indicator.dart';
 import 'package:on_a_trip/common/widgets/custom_container.dart';
 import 'package:on_a_trip/common/widgets/show_image_widget.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
-import 'package:on_a_trip/features/destination_screen/presentation/screens/proposal_detail_screen.dart';
-import 'package:on_a_trip/gen/assets.gen.dart';
 import 'package:provider/provider.dart';
 
 class TransporterAddPackageWidget extends StatefulWidget {
@@ -135,20 +133,23 @@ class _TransporterAddPackageWidgetState extends State<TransporterAddPackageWidge
                                 ),
                                 itemCount: destinationScreenProvider.transporterPackageImages.length,
                               )
-                            : ElevatedButton(
-                                onPressed: () async {
-                                  try {
-                                    List<File> pickedFile;
-                                    pickedFile = await FetchImage.pickMultipleImage();
+                            : SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    try {
+                                      List<File> pickedFile;
+                                      pickedFile = await FetchImage.pickMultipleImage();
 
-                                    destinationScreenProvider.transporterPackageImages = pickedFile;
-                                  } catch (e) {
-                                    Utils.showSnackBar(context, content: e.toString());
-                                  }
-                                },
-                                child: const Icon(
-                                  size: 18,
-                                  Icons.add_a_photo,
+                                      destinationScreenProvider.transporterPackageImages = pickedFile;
+                                    } catch (e) {
+                                      Utils.showSnackBar(context, content: e.toString());
+                                    }
+                                  },
+                                  child: const Icon(
+                                    size: 18,
+                                    Icons.add_a_photo,
+                                  ),
                                 ),
                               ),
                         SizedBox(height: 12.h),

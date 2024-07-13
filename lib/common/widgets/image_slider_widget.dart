@@ -27,9 +27,14 @@ class ImageSliderWidget extends StatelessWidget {
         Positioned(
           bottom: 10.h,
           child: SmoothPageIndicator(
-            effect: const WormEffect(
-              dotWidth: 8,
-              dotHeight: 8,
+            onDotClicked: (index) => _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.ease,
+            ),
+            effect: const ScrollingDotsEffect(
+              dotWidth: 6,
+              dotHeight: 6,
               dotColor: Colors.white38,
               activeDotColor: Colors.white,
             ),

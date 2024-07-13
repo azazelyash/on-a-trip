@@ -115,9 +115,9 @@ class _TransporterHomeScreenState extends State<TransporterHomeScreen> {
                                 ),
                               );
                             },
-                            imageUrl: data.image![0],
-                            title: data.title!,
-                            locationSubtitle: data.transportType!,
+                            imageUrl: data.image != null ? data.image![0] : null,
+                            title: data.title ?? "-",
+                            locationSubtitle: data.transportType ?? "-",
                           );
                         },
                       ),

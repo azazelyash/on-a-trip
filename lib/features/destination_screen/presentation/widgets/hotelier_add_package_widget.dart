@@ -141,20 +141,23 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                             ),
                             itemCount: destinationScreenProvider.hotelPackageImages.length,
                           )
-                        : ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                List<File> pickedFile;
-                                pickedFile = await FetchImage.pickMultipleImage();
+                        : SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  List<File> pickedFile;
+                                  pickedFile = await FetchImage.pickMultipleImage();
 
-                                destinationScreenProvider.hotelPackageImages = pickedFile;
-                              } catch (e) {
-                                Utils.showSnackBar(context, content: e.toString());
-                              }
-                            },
-                            child: const Icon(
-                              size: 18,
-                              Icons.add_a_photo,
+                                  destinationScreenProvider.hotelPackageImages = pickedFile;
+                                } catch (e) {
+                                  Utils.showSnackBar(context, content: e.toString());
+                                }
+                              },
+                              child: const Icon(
+                                size: 18,
+                                Icons.add_a_photo,
+                              ),
                             ),
                           ),
                     SizedBox(height: 12.h),
@@ -354,24 +357,6 @@ class _HotelierAddPackageWidgetState extends State<HotelierAddPackageWidget> {
                         prefixIcon: Icon(Icons.price_change_outlined),
                       ),
                     ),
-                    // SizedBox(height: 12.h),
-                    // DropdownButtonFormField(
-                    //   decoration: const InputDecoration(
-                    //     prefixIcon: Icon(Icons.group_outlined),
-                    //     labelText: "Couple",
-                    //   ),
-                    //   items: const [
-                    //     DropdownMenuItem(
-                    //       value: "Yes",
-                    //       child: Text("Yes"),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: "No",
-                    //       child: Text("No"),
-                    //     ),
-                    //   ],
-                    //   onChanged: (newVal) {},
-                    // ),
                     SizedBox(height: 12.h),
                     TextFormField(
                       minLines: 3,

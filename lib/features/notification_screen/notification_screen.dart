@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
 import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/features/notification_screen/widget/notification_tile_widget.dart';
-import 'package:on_a_trip/gen/assets.gen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});

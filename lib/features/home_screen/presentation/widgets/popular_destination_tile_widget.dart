@@ -13,7 +13,7 @@ class PopularDestinationTileWidget extends StatelessWidget {
     required this.locationSubtitle,
   });
 
-  final String imageUrl;
+  final String? imageUrl;
   final String title;
   final VoidCallback? onTap;
   final String locationSubtitle;
@@ -31,7 +31,7 @@ class PopularDestinationTileWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(right: 18.h),
         child: CachedNetworkImage(
-          imageUrl: imageUrl,
+          imageUrl: imageUrl ?? "https://placehold.co/600x400",
           imageBuilder: (context, imageProvider) => Container(
             width: 150,
             height: 200,
@@ -67,17 +67,17 @@ class PopularDestinationTileWidget extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        const Row(
+                        Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on_outlined,
                               size: 12,
                               color: CustomColors.primaryColor,
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
-                              "South Tyrol, Italy",
-                              style: TextStyle(
+                              locationSubtitle,
+                              style: const TextStyle(
                                 color: CustomColors.primaryColor,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,

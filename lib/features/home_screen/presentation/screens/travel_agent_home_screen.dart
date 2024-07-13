@@ -115,9 +115,9 @@ class _TravelAgentHomeScreenState extends State<TravelAgentHomeScreen> {
                                 ),
                               );
                             },
-                            imageUrl: data.images![0],
-                            title: data.title!,
-                            locationSubtitle: data.transportType!,
+                            title: data.title ?? "-",
+                            locationSubtitle: data.transportType ?? "-",
+                            imageUrl: data.images != null ? data.images![0] : null,
                           );
                         },
                       ),

@@ -139,20 +139,23 @@ class _TravelAgentAddPackageWidgetState extends State<TravelAgentAddPackageWidge
                             ),
                             itemCount: destinationScreenProvider.holidayPackageImages.length,
                           )
-                        : ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                List<File> pickedFile;
-                                pickedFile = await FetchImage.pickMultipleImage();
+                        : SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  List<File> pickedFile;
+                                  pickedFile = await FetchImage.pickMultipleImage();
 
-                                destinationScreenProvider.holidayPackageImages = pickedFile;
-                              } catch (e) {
-                                Utils.showSnackBar(context, content: e.toString());
-                              }
-                            },
-                            child: const Icon(
-                              size: 18,
-                              Icons.add_a_photo,
+                                  destinationScreenProvider.holidayPackageImages = pickedFile;
+                                } catch (e) {
+                                  Utils.showSnackBar(context, content: e.toString());
+                                }
+                              },
+                              child: const Icon(
+                                size: 18,
+                                Icons.add_a_photo,
+                              ),
                             ),
                           ),
                     SizedBox(height: 12.h),
