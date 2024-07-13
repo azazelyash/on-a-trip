@@ -18,8 +18,7 @@ class BottomNavigationProvider extends LoadingProvider {
   }
 
   void navigateToTab(int tabIndex, int index) {
-    _selectedIndex = index;
-    _selectedTabIndex = tabIndex;
-    notifyListeners();
+    selectedIndex = index;
+    selectedTabIndex = tabIndex;
   }
 }

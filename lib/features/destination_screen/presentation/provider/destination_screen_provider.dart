@@ -142,15 +142,12 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetTransportPackageParams params,
   }) async {
     try {
-      isLoading = true;
       final data = await getTransportPackageUsecase.execute(params: params);
       myTransportPackages = data;
 
       return data;
     } catch (e) {
       rethrow;
-    } finally {
-      isLoading = false;
     }
   }
 
@@ -158,14 +155,11 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetHotelPackageParams params,
   }) async {
     try {
-      isLoading = true;
       final data = await getHotelPackageUsecase.execute(params: params);
       myHotelPackages = data;
       return data;
     } catch (e) {
       rethrow;
-    } finally {
-      isLoading = false;
     }
   }
 
@@ -173,14 +167,11 @@ class DestinationScreenProvider extends LoadingProvider {
     required GetHolidayPackageParams params,
   }) async {
     try {
-      isLoading = true;
       final data = await getHolidayPackageUsecase.execute(params: params);
       myHolidayPackages = data;
       return data;
     } catch (e) {
       rethrow;
-    } finally {
-      isLoading = false;
     }
   }
 }

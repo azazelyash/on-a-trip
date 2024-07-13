@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_a_trip/common/constants/colors.dart';
@@ -105,6 +107,8 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<AuthScreenProvider>(
         builder: (context, authScreenProvider, child) {
           Widget homeScreen;
+
+          log(authScreenProvider.userRole.toString(), name: "User Role");
 
           if (!authScreenProvider.isAuthenticated) {
             homeScreen = const OnboardingScreen();

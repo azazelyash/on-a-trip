@@ -7,6 +7,7 @@ import 'package:on_a_trip/features/destination_screen/presentation/screens/propo
 class PopularDestinationTileWidget extends StatelessWidget {
   const PopularDestinationTileWidget({
     super.key,
+    this.onTap,
     required this.imageUrl,
     required this.title,
     required this.locationSubtitle,
@@ -14,16 +15,19 @@ class PopularDestinationTileWidget extends StatelessWidget {
 
   final String imageUrl;
   final String title;
+  final VoidCallback? onTap;
   final String locationSubtitle;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const ProposalDetailScreen()),
-        );
-      },
+      // TODO: Add onTap
+      onTap: onTap ??
+          () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const ProposalDetailScreen()),
+            );
+          },
       child: Padding(
         padding: EdgeInsets.only(right: 18.h),
         child: CachedNetworkImage(

@@ -4,6 +4,7 @@ import 'package:on_a_trip/common/widgets/custom_appbar.dart';
 import 'package:on_a_trip/common/widgets/custom_search_bar.dart';
 import 'package:on_a_trip/features/destination_screen/domain/usecases/get_hotel_package_usecase.dart';
 import 'package:on_a_trip/features/destination_screen/presentation/provider/destination_screen_provider.dart';
+import 'package:on_a_trip/features/destination_screen/presentation/screens/hotel_details_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/my_prroposal_tile_widget.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/new_proposal_tile_widget.dart';
@@ -107,6 +108,13 @@ class _HotelierHomeScreenState extends State<HotelierHomeScreen> {
                         itemBuilder: (context, index) {
                           final data = context.watch<DestinationScreenProvider>().myHotelPackages[index];
                           return PopularDestinationTileWidget(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => HotelDetailsScreen(hotelPackageModel: data),
+                                ),
+                              );
+                            },
                             imageUrl: data.image![0],
                             title: data.title!,
                             locationSubtitle: data.transportType!,
