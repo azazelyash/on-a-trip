@@ -13,7 +13,7 @@ import 'package:on_a_trip/features/home_screen/presentation/screens/hotelier_hom
 import 'package:on_a_trip/features/home_screen/presentation/screens/transporter_home_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/screens/travel_agent_home_screen.dart';
 import 'package:on_a_trip/features/home_screen/presentation/widgets/bottom_navigation_provider.dart';
-import 'package:on_a_trip/features/notification_screen/notification_screen.dart';
+import 'package:on_a_trip/features/notification_screen/presentation/screens/notification_screen.dart';
 import 'package:on_a_trip/features/profile_screen/presentation/screens/profile_screen.dart';
 import 'package:on_a_trip/gen/assets.gen.dart';
 import 'package:provider/provider.dart';

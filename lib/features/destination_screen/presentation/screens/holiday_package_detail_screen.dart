@@ -171,11 +171,6 @@ class _HolidayPackageDetailScreenState extends State<HolidayPackageDetailScreen>
                           title: "Transport Name",
                           value: widget.holidayPackageModel.cabName ?? 'N/A',
                         ),
-                        SizedBox(height: 8.h),
-                        AdditionalnformationWidget(
-                          title: "Description",
-                          value: widget.holidayPackageModel.description ?? 'N/A',
-                        ),
                       ],
                     ),
                     SizedBox(height: 16.h),

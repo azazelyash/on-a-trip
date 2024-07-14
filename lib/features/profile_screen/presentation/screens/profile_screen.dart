@@ -30,12 +30,13 @@ class ProfileScreen extends StatelessWidget {
           const CustomAppBar(),
           SizedBox(height: 32.h),
           CachedNetworkImage(
-            imageUrl: "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
+            imageUrl: context.watch<AuthScreenProvider>().userModel?.profile ?? "https://blog.thomascook.in/wp-content/uploads/2017/01/Santorini-Greece.jpg",
             imageBuilder: (context, imageProvider) => Container(
               width: 160,
               height: 160,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                color: Colors.grey.shade200,
                 image: DecorationImage(
                   image: imageProvider,
                   fit: BoxFit.cover,
@@ -57,8 +58,8 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          const Text(
-            "Brandon Smith",
+          Text(
+            context.watch<AuthScreenProvider>().userModel?.name ?? "N/A",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -102,14 +103,21 @@ class ProfileScreen extends StatelessWidget {
                   title: 'Address',
                   onTap: () {},
                 ),
+                context.watch<AuthScreenProvider>().userModel!.userType == 'traveller'
+                    ? ProfileElementButton(
+                        icon: Icons.favorite,
+                        title: 'My Wishlist',
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const WishlistScreen()),
+                          );
+                        },
+                      )
+                    : const SizedBox.shrink(),
                 ProfileElementButton(
-                  icon: Icons.favorite,
-                  title: 'My Wishlist',
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const WishlistScreen()),
-                    );
-                  },
+                  onTap: () {},
+                  icon: Icons.settings,
+                  title: 'Settings',
                 ),
                 ProfileElementButton(
                   onTap: () {},

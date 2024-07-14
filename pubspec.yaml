@@ -28,6 +28,7 @@ dependencies:
   http_parser:
   image_picker: ^1.1.2
   infinite_scroll_pagination: ^4.0.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

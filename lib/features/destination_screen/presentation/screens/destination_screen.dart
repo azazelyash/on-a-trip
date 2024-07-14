@@ -69,10 +69,14 @@ class _DestinationScreenState extends State<DestinationScreen> with SingleTicker
               indicatorColor: CustomColors.primaryColor,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: const [
-                Tab(text: "Add Package"),
-                Tab(text: "Our Packages"),
-                Tab(text: "Proposal"),
+                Tab(text: "Add Requirement"),
+                Tab(text: "My Requirement"),
+                Tab(text: "Create Requirement"),
               ],
+              labelStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             SizedBox(height: 16.h),
             Expanded(

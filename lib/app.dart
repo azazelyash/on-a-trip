@@ -1,6 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:on_a_trip/features/notification_screen/data/data_source/notification_screen_remote_data_source.dart';
+import 'package:on_a_trip/features/notification_screen/data/repository/notification_screen_repository_impl.dart';
+import 'package:on_a_trip/features/notification_screen/domain/usecases/get_all_notifications_usecase.dart';
+import 'package:on_a_trip/features/notification_screen/domain/usecases/mark_notification_as_read_usecase.dart';
+import 'package:on_a_trip/features/notification_screen/presentation/provider/notification_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +71,11 @@ class _MyAppState extends State<MyApp> {
       destinationScreenRemoteDataSource: DestinationScreenRemoteDataSource(httpService: httpService),
     );
 
+    final NotificationScreenRepositoryImpl notificationScreenRepository = NotificationScreenRepositoryImpl(
+      tokenManager: tokenManager,
+      remoteDataSource: NotificationScreenRemoteDataSource(httpService: httpService),
+    );
+
     return ScreenUtilInit(
       minTextAdapt: true,
       designSize: const Size(390, 844),
@@ -83,6 +93,12 @@ class _MyAppState extends State<MyApp> {
                 getUserDetailsUsecase: GetUserDetailsUsecase(authScreenRepository: authScreenRepository),
                 checkAuthStatusUsecase: CheckAuthStatusUsecase(authScreenRepository: authScreenRepository),
               )..checkAuthStatus(),
+            ),
+            ChangeNotifierProvider<NotificationScreenProvider>(
+              create: (context) => NotificationScreenProvider(
+                getAllNotificationsUsecase: GetAllNotificationsUsecase(notificationScreenRepository: notificationScreenRepository),
+                markNotificationAsReadUsecase: MarkNotificationAsReadUsecase(notificationScreenRepository: notificationScreenRepository),
+              ),
             ),
             ChangeNotifierProvider<CreateProfileProvider>(
               create: (context) => CreateProfileProvider(

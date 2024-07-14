@@ -41,9 +41,16 @@ class $AssetsImagesGen {
   AssetGenImage get businessUser =>
       const AssetGenImage('assets/images/business_user.png');
 
+  /// File path: assets/images/holiday_package.jpg
+  AssetGenImage get holidayPackage =>
+      const AssetGenImage('assets/images/holiday_package.jpg');
+
   /// File path: assets/images/hotelier.png
   AssetGenImage get hotelier =>
       const AssetGenImage('assets/images/hotelier.png');
+
+  /// File path: assets/images/hotels.jpg
+  AssetGenImage get hotels => const AssetGenImage('assets/images/hotels.jpg');
 
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
@@ -60,6 +67,10 @@ class $AssetsImagesGen {
   AssetGenImage get onboarding3 =>
       const AssetGenImage('assets/images/onboarding_3.png');
 
+  /// File path: assets/images/show_all.jpg
+  AssetGenImage get showAll =>
+      const AssetGenImage('assets/images/show_all.jpg');
+
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
 
@@ -74,6 +85,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/transporter.png
   AssetGenImage get transporter =>
       const AssetGenImage('assets/images/transporter.png');
+
+  /// File path: assets/images/transports.jpg
+  AssetGenImage get transports =>
+      const AssetGenImage('assets/images/transports.jpg');
 
   /// File path: assets/images/travel_agent.png
   AssetGenImage get travelAgent =>
@@ -92,15 +107,19 @@ class $AssetsImagesGen {
         restaurant,
         wifi,
         businessUser,
+        holidayPackage,
         hotelier,
+        hotels,
         logo,
         onboarding1,
         onboarding2,
         onboarding3,
+        showAll,
         splash,
         splashBg,
         splashLogo,
         transporter,
+        transports,
         travelAgent,
         traveller
       ];
